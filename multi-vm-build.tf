@@ -2,8 +2,7 @@
 
 provider "vault" {
   version = "~> 2.10"
-  token = "s.18B0K15ej8p2MeqwRifXVFmx"
-  #token_name = "multi-vm"
+  token = var.token_id
   address = var.vault_addr
 }
 
@@ -30,98 +29,62 @@ resource "vcd_vapp" "lab_template" {
 
 # Create vApp Networks
 
-resource "vcd_vapp_network" "vappNet0" {
-
-
-  name               = "OOB"
+resource "vcd_vapp_network" "vAppNet-MGMT" {
+  name               = "VAppNet-vAppNet-vAppNet-MGMT"
   vapp_name          = vcd_vapp.lab_template.name
-  gateway            = "192.168.200.254"
+  gateway            = "192.168.2.1"
   netmask            = "255.255.255.0"
   dns1               = "10.255.0.1"
-  dns_suffix         = "sandbox.wwtatc.local"
- 
+  dns_suffix         = "wwtatc.local"
 }
 
-resource "vcd_vapp_network" "vappNet1" {
-
-
-  name               = "net1"
+resource "vcd_vapp_network" "External" {
+  name               = "External"
   vapp_name          = vcd_vapp.lab_template.name
-  gateway            = "192.168.1.254"
+  gateway            = "10.128.10.1"
   netmask            = "255.255.255.0"
   dns1               = "10.255.0.1"
-  dns_suffix         = "sandbox.wwtatc.local"
- 
+  dns_suffix         = "wwtatc.local"
 }
 
-resource "vcd_vapp_network" "vappNet2" {
-
-
-  name               = "net2"
+resource "vcd_vapp_network" "Internal" {
+  name               = "Internal"
   vapp_name          = vcd_vapp.lab_template.name
-  gateway            = "192.168.2.254"
+  gateway            = "10.128.20.1"
   netmask            = "255.255.255.0"
   dns1               = "10.255.0.1"
-  dns_suffix         = "sandbox.wwtatc.local"
- 
+  dns_suffix         = "wwtatc.local"
 }
 
-resource "vcd_vapp_network" "vappNet3" {
-
-
-  name               = "net3"
-  vapp_name          = vcd_vapp.lab_template.name
-  gateway            = "192.168.3.254"
-  netmask            = "255.255.255.0"
-  dns1               = "10.255.0.1"
-  dns_suffix         = "sandbox.wwtatc.local"
- 
-}
-
-# Create Ubuntu Server #1, Nics, Attached Networks
-
-resource "vcd_vapp_vm" "vyos-1" {
-  #vapp_name =   vcd_vapp.lab_template.name
-  vapp_name = "a-open-white-network-sandbox-v3"
-  name          = "S4-VyOS"
+# Create VyOS routing, Nics, Attached Networks
+resource "vcd_vapp_vm" "VyOS-RTR" {
+  vapp_name = vcd_vapp.lab_template.name
+  name          = "VyOS-RTR"
   power_on      = "true"
-  catalog_name  = "Platform Lab Base Templates"
-  #template_name = "labs-ubuntu1804server-041420"
-  template_name = "S4-VyOS"
-  memory        = 2048
+  catalog_name  = var.catalog
+  template_name = var.template_name
+  memory        = 4096
   cpus          = 2
   cpu_cores     = 1
 
-
   network {
     type               = "vapp"
-    name               = vcd_vapp_network.vappNet0.name
-    ip_allocation_mode = "MANUAL"
-    ip                 = "192.168.200.254"
+    name               = vcd_vapp_network.vAppNet-MGMT.name
+    ip_allocation_mode = "DHCP"
     is_primary         = true
   }
 
   network {
     type               = "vapp"
-    name               = vcd_vapp_network.vappNet1.name
-    ip_allocation_mode = "MANUAL"
-    ip                 = "192.168.1.254"
+    name               = vcd_vapp_network.External.name
+    ip_allocation_mode = "DHCP"
     is_primary         = false
   }
 
 network {
     type               = "vapp"
-    name               = vcd_vapp_network.vappNet2.name
-    ip_allocation_mode = "MANUAL"
-    ip                 = "192.168.2.254"
-    is_primary         = false
-  }
-
-  network {
-    type               = "vapp"
-    name               = vcd_vapp_network.vappNet3.name
-    ip_allocation_mode = "MANUAL"
-    ip                 = "192.168.3.254"
+    name               = vcd_vapp_network.Internal.name
+    ip_allocation_mode = "DHCP"
     is_primary         = false
   }
 
@@ -130,14 +93,12 @@ network {
 
 # Create Ubuntu Server #2, Nics, Attached Networks
 
-resource "vcd_vapp_vm" "jump-1" {
-  #vapp_name =   vcd_vapp.lab_template.name
-  vapp_name = "Avi_Automation_Lab_v5"
-  name          = "Win10-Jumpbox"
+resource "vcd_vapp_vm" "Jumpbox-Win10" {
+  vapp_name =   vcd_vapp.lab_template.name
+  name          = "Jumpbox-Win10"
   power_on      = "true"
-  catalog_name  = "Platform Lab Base Templates"
-  #template_name = "labs-ubuntu1804server-041420"
-  template_name = "Win10-Jumpbox2"
+  catalog_name  = var.catalog
+  template_name = var.template_name
   memory        = 4096
   cpus          = 2
   cpu_cores     = 1
@@ -145,33 +106,22 @@ resource "vcd_vapp_vm" "jump-1" {
 
   network {
     type               = "vapp"
-    name               = vcd_vapp_network.vappNet0.name
-    ip_allocation_mode = "MANUAL"
-    ip                 = "192.168.200.253"
+    name               = vcd_vapp_network.vAppNet-MGMT.name
+    ip_allocation_mode = "DHCP"
     is_primary         = true
   }
 
   network {
     type               = "vapp"
-    name               = vcd_vapp_network.vappNet1.name
-    ip_allocation_mode = "MANUAL"
-    ip                 = "192.168.1.253"
+    name               = vcd_vapp_network.External.name
+    ip_allocation_mode = "DHCP"
     is_primary         = false
   }
 
   network {
     type               = "vapp"
-    name               = vcd_vapp_network.vappNet2.name
-    ip_allocation_mode = "MANUAL"
-    ip                 = "192.168.2.253"
-    is_primary         = false
-  }
-
-  network {
-    type               = "vapp"
-    name               = vcd_vapp_network.vappNet3.name
-    ip_allocation_mode = "MANUAL"
-    ip                 = "192.168.3.253"
+    name               = vcd_vapp_network.Internal.name
+    ip_allocation_mode = "DHCP"
     is_primary         = false
   }
 
