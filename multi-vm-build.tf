@@ -6,8 +6,12 @@ provider "vault" {
   address = var.vault_addr
 }
 
-data "vault_generic_secret" "vcd" {
-  path = "secret/gsd"
+data "vault_generic_secret" "vcduser" {
+  path = "secret/gsduser"
+}
+
+data "vault_generic_secret" "vcdpassword" {
+  path = "secret/gsdpassword"
 }
 
 # Configure vCD Access
@@ -16,8 +20,8 @@ provider "vcd" {
   url      = var.vcd_url
   org      = var.org
   vdc      = var.vdc
-  user     = var.vcduser
-  password = var.vcdpassword
+  user = data.vault_generic_secret.vcduser.data["vcduser"]
+  password = data.vault_generic_secret.vcdpassword.data["vcdpassword"]
   allow_unverified_ssl = "true"
 }
 

@@ -13,27 +13,22 @@ variable "vdc" {
     default = "vCD-Sand-vApps"
 }
 
-# To protect credentials, ensure all terraform.* files are in .gitignore
-# This will prevent the credentials being replicated to the repository
-
-# If using Vault for authentication, add the url of the Vault server
-
 variable "vault_addr" {
     description = "Vault Address"
     default = "http://127.0.0.1:8200"
 }
 
 variable "vcduser" {
-    default = "duboisc"
+    default = ""
 }
 
 variable "vcdpassword" {
     type = string
-    default = "0696Cdd!ALec4Abbey"
+    default = ""
 }
 
 variable "token_id" {
-    default = "s.eNyNmcDXaJyNr9VLAffKiikG"
+    default = "s.VdwnQYMMJuHP07TtKHst9PsD"
 }
 
 variable "catalog" {
