@@ -20,8 +20,8 @@ provider "vcd" {
   url      = var.vcd_url
   org      = var.org
   vdc      = var.vdc
-  user = data.vault_generic_secret.vcduser.data["vcduser"]
-  password = data.vault_generic_secret.vcdpassword.data["vcdpassword"]
+  user = data.vault_generic_secret.vcduser.data["gsduser"]
+  password = data.vault_generic_secret.vcdpassword.data["gsdpassword"]
   allow_unverified_ssl = "true"
 }
 

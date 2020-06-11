@@ -15,7 +15,7 @@ variable "vdc" {
 
 variable "vault_addr" {
     description = "Vault Address"
-    default = "http://127.0.0.1:8200"
+    default = ""
 }
 
 variable "vcduser" {
@@ -28,7 +28,7 @@ variable "vcdpassword" {
 }
 
 variable "token_id" {
-    default = "s.VdwnQYMMJuHP07TtKHst9PsD"
+    default = "s.eNKfDZRnSKItdxxE757F06f0"
 }
 
 variable "catalog" {
