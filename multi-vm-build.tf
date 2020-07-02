@@ -60,10 +60,10 @@ resource "vcd_vapp_network" "Internal" {
   dns_suffix         = "wwtatc.local"
 }
 
-# Create VyOS routing, Nics, Attached Networks
-resource "vcd_vapp_vm" "VyOS-RTR" {
+# Create Automation VM, Ansible, Terraform and AZ login, Nics, Attached Networks
+resource "vcd_vapp_vm" "Automation_VM" {
   vapp_name = vcd_vapp.lab_template.name
-  name          = "VyOS-RTR"
+  name          = "Ansible Tower"
   power_on      = "true"
   catalog_name  = var.catalog
   template_name = var.template_name
@@ -97,9 +97,9 @@ network {
 
 # Create Ubuntu Server #2, Nics, Attached Networks
 
-resource "vcd_vapp_vm" "Jumpbox-Win10" {
+resource "vcd_vapp_vm" "Win10-Jumpbox" {
   vapp_name =   vcd_vapp.lab_template.name
-  name          = "Jumpbox-Win10"
+  name          = "Win10-Jumpbox2"
   power_on      = "true"
   catalog_name  = var.catalog
   template_name = var.template_name

@@ -6,11 +6,11 @@ variable "vcd_url" {
 }
 variable "org" {
     description = "VCD Organization"
-    default = "vCD-Sand"
+    default = "vCD-Perm"
 }
 variable "vdc" {
     description = "VCD VDC"
-    default = "vCD-Sand-vApps"
+    default = "vCD-Perm-vApps"
 }
 
 variable "vault_addr" {
@@ -28,13 +28,13 @@ variable "vcdpassword" {
 }
 
 variable "token_id" {
-    default = "s.eNKfDZRnSKItdxxE757F06f0"
+    default = "s.qsflJKNKMre1ByjpY6gramaS"
 }
 
 variable "catalog" {
-    default = "vCD-Sand Templates"
+    default = "Perm-vApps"
 }
 
 variable "template_name" {
-    default = "Cisco-SDWAN-Sandbox-v2.3"
+    default = "Nginx-Lab-Module-2.v2"
 }
