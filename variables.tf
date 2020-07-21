@@ -1,40 +1,40 @@
 # Variables for VCD
 
 variable "vcd_url" {
-    description = "VCD URL"
-    default = "https://vcloud.wwtatc.local/api"
+  description = "VCD URL"
+  default     = "https://vcloud.wwtatc.local/api"
 }
 variable "org" {
-    description = "VCD Organization"
-    default = "vCD-Perm"
+  description = "VCD Organization"
+  default     = "vCD-Perm"
 }
 variable "vdc" {
-    description = "VCD VDC"
-    default = "vCD-Perm-vApps"
+  description = "VCD VDC"
+  default     = "vCD-Perm-vApps"
 }
 
 variable "vault_addr" {
-    description = "Vault Address"
-    default = ""
+  description = "Vault Address"
+  default     = ""
 }
 
 variable "vcduser" {
-    default = ""
+  default = ""
 }
 
 variable "vcdpassword" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "token_id" {
-    default = "s.qsflJKNKMre1ByjpY6gramaS"
+  default = "s.ntT21pt6UmoFSySu546JmLSZ"
 }
 
 variable "catalog" {
-    default = "Perm-vApps"
+  default = "Perm-vApps"
 }
 
 variable "template_name" {
-    default = "Nginx-Lab-Module-2.v2"
+  default = "Nginx-Lab-Module-2.v2"
 }
