@@ -19,7 +19,7 @@ variable "vdc" {
 variable "vault_addr" {
   type        = string
   description = "Vault Address"
-  default     = ""
+  default     = "http://127.0.0.1:8200"
 }
 
 variable "vcduser" {
